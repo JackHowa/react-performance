@@ -3,7 +3,18 @@
 
 import * as React from 'react'
 
-const Globe = React.lazy(() => import('../globe'))
+// reusable load globe
+const loadGlobe = () => import('../globe')
+
+// code be already loaded because bundler keeps track of loader already
+const Globe = React.lazy(loadGlobe)
+
+function eagerLoad() {
+  // eager load components
+  // use dynamic imports
+  // doesn't matter how many times this is called mul
+  loadGlobe()
+}
 
 function App() {
   const [showGlobe, setShowGlobe] = React.useState(false)
@@ -19,7 +30,13 @@ function App() {
         padding: '2rem',
       }}
     >
-      <label style={{ marginBottom: '1rem' }}>
+      <label
+        style={{ marginBottom: '1rem' }}
+        // doesn't matter how many times this is called
+        // use dynamic imports to override the lazy loading globe
+        onFocus={eagerLoad}
+        onMouseEnter={eagerLoad}
+      >
         <input
           type="checkbox"
           checked={showGlobe}
