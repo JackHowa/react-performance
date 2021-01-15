@@ -56,8 +56,5 @@ function App() {
     </div>
   )
 }
-// 🦉 Note that if you're not on the isolated page, then you'll notice that this
-// app actually already has a React.Suspense component higher up in the tree
-// where this component is rendered, so you *could* just rely on that one.
 
 export default App
