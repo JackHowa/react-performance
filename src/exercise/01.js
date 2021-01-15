@@ -4,7 +4,11 @@
 import * as React from 'react'
 
 // reusable load globe
-const loadGlobe = () => import('../globe')
+const loadGlobe = () => import(
+  /* webpackChunkName: "da-globe-i-made" */
+  /* webpackPrefetch: true */
+  '../globe'
+)
 
 // code be already loaded because bundler keeps track of loader already
 const Globe = React.lazy(loadGlobe)
