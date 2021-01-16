@@ -50,7 +50,10 @@ function App() {
       </label>
       <div style={{ width: 400, height: 400 }}>
         {/* interestingly I'd expect the suspense to wrapped around the
-      actual component that I'm lazy loading */}
+      actual component that I'm lazy loading 
+        concurrent react may need to worry about fallback and suspense position 
+        leave suspense outside of the conditional
+      */}
         <React.Suspense fallback={'loading globe'}>
           {showGlobe ?
             <Globe />
