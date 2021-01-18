@@ -2,9 +2,9 @@
 // http://localhost:3000/isolated/exercise/03.js
 
 import * as React from 'react'
-import {useCombobox} from '../use-combobox'
-import {getItems} from '../workerized-filter-cities'
-import {useAsync, useForceRerender} from '../utils'
+import { useCombobox } from '../use-combobox'
+import { getItems } from '../workerized-filter-cities'
+import { useAsync, useForceRerender } from '../utils'
 
 function Menu({
   items,
@@ -30,7 +30,7 @@ function Menu({
     </ul>
   )
 }
-// 🐨 Memoize the Menu here using React.memo
+Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
@@ -56,13 +56,65 @@ function ListItem({
     />
   )
 }
-// 🐨 Memoize the ListItem here using React.memo
+
+
+/*
+ 
+children: "Foley"
+getItemProps: ƒ (_temp3)
+highlightedIndex: 0
+index: 99
+item: {country: "US", name: "Foley", lat: "30.40659", lng: "-87.6836", id: "99"}
+selectedItem: null
+
+
+03.js:73 
+{item: {…}, index: 2, selectedItem: {…}, highlightedIndex: -1, getItemProps: ƒ, …}
+children: "Upper Bear Creek"
+getItemProps: ƒ (_temp3)
+highlightedIndex: -1
+index: 2
+item: {country: "US", name: "Upper Bear Creek", lat: "39.62385", lng: "-105.4178", id: "16465"}
+selectedItem: {country: "US", name: "Bear Creek", lat: "34.27482", lng: "-87.70058", id: "5"}
+key: (...)
+get key: ƒ ()
+__proto__: Object
+ "prev"
+03.js:74 
+{item: {…}, index: 2, selectedItem: {…}, highlightedIndex: -1, getItemProps: ƒ, …}
+children: "Upper Bear Creek"
+getItemProps: ƒ (_temp3)
+highlightedIndex: -1
+index: 2
+item: {country: "US", name: "Upper Bear Creek", lat: "39.62385", lng: "-105.4178", id: "16465"}
+selectedItem: {country: "US", name: "Bear Creek", lat: "60.16417", lng: "-149.395", id: "16087"}
+key: (...)
+get key: ƒ ()
+__proto__: Object
+ 
+
+*/
+
+function shouldListItemRerender(prevProps, nextProps) {
+  // 
+  console.log(prevProps, 'prev')
+  console.log(nextProps, 'next')
+  // for next 
+  return nextProps?.selectedItem?.id === prevProps.item.id;
+
+  // return true;
+  // return prevProps.highlightedIndex 
+  // !== prevProps.index || nextProps.highlightedIndex !== nextProps.index;
+
+  // return prevProps.selectedItem !== nextProps.selectedItem;
+}
+ListItem = React.memo(ListItem, shouldListItemRerender)
 
 function App() {
   const forceRerender = useForceRerender()
   const [inputValue, setInputValue] = React.useState('')
 
-  const {data: allItems, run} = useAsync({data: [], status: 'pending'})
+  const { data: allItems, run } = useAsync({ data: [], status: 'pending' })
   React.useEffect(() => {
     run(getItems(inputValue))
   }, [inputValue, run])
@@ -80,8 +132,8 @@ function App() {
   } = useCombobox({
     items,
     inputValue,
-    onInputValueChange: ({inputValue: newValue}) => setInputValue(newValue),
-    onSelectedItemChange: ({selectedItem}) =>
+    onInputValueChange: ({ inputValue: newValue }) => setInputValue(newValue),
+    onSelectedItemChange: ({ selectedItem }) =>
       alert(
         selectedItem
           ? `You selected ${selectedItem.name}`
@@ -96,7 +148,7 @@ function App() {
       <div>
         <label {...getLabelProps()}>Find a city</label>
         <div {...getComboboxProps()}>
-          <input {...getInputProps({type: 'text'})} />
+          <input {...getInputProps({ type: 'text' })} />
           <button onClick={() => selectItem(null)} aria-label="toggle menu">
             &#10005;
           </button>
