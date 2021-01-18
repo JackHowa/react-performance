@@ -16,20 +16,17 @@ function Menu({
   return (
     <ul {...getMenuProps()}>
       {items.map((item, index) => {
-        console.log(item)
 
         const isHighlighted = highlightedIndex === index;
-
+        const isSelected = selectedItem?.id === item.id
         return (
           <ListItem
-            isSelected={false}
+            isSelected={isSelected}
             isHighlighted={isHighlighted}
             key={item.id}
             getItemProps={getItemProps}
             item={item}
             index={index}
-            selectedItem={selectedItem}
-            highlightedIndex={highlightedIndex}
           >
             {item.name}
           </ListItem>
@@ -45,12 +42,10 @@ function ListItem({
   item,
   index,
   selectedItem,
-  highlightedIndex,
+  isSelected,
   isHighlighted,
   ...props
 }) {
-  const isSelected = selectedItem?.id === item.id
-  // const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
