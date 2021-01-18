@@ -15,18 +15,26 @@ function Menu({
 }) {
   return (
     <ul {...getMenuProps()}>
-      {items.map((item, index) => (
-        <ListItem
-          key={item.id}
-          getItemProps={getItemProps}
-          item={item}
-          index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
-        >
-          {item.name}
-        </ListItem>
-      ))}
+      {items.map((item, index) => {
+        console.log(item)
+
+        const isHighlighted = highlightedIndex === index;
+
+        return (
+          <ListItem
+            isSelected={false}
+            isHighlighted={isHighlighted}
+            key={item.id}
+            getItemProps={getItemProps}
+            item={item}
+            index={index}
+            selectedItem={selectedItem}
+            highlightedIndex={highlightedIndex}
+          >
+            {item.name}
+          </ListItem>
+        )
+      })}
     </ul>
   )
 }
@@ -38,10 +46,11 @@ function ListItem({
   index,
   selectedItem,
   highlightedIndex,
+  isHighlighted,
   ...props
 }) {
   const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
+  // const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
@@ -95,20 +104,20 @@ __proto__: Object
 
 */
 
-function shouldListItemRerender(prevProps, nextProps) {
-  // 
-  console.log(prevProps, 'prev')
-  console.log(nextProps, 'next')
-  // for next 
-  return nextProps?.selectedItem?.id === prevProps.item.id;
+// function shouldListItemRerender(prevProps, nextProps) {
+//   // 
+//   console.log(prevProps, 'prev')
+//   console.log(nextProps, 'next')
+//   // for next 
+//   return nextProps?.selectedItem?.id === prevProps.item.id;
 
-  // return true;
-  // return prevProps.highlightedIndex 
-  // !== prevProps.index || nextProps.highlightedIndex !== nextProps.index;
+//   // return true;
+//   // return prevProps.highlightedIndex 
+//   // !== prevProps.index || nextProps.highlightedIndex !== nextProps.index;
 
-  // return prevProps.selectedItem !== nextProps.selectedItem;
-}
-ListItem = React.memo(ListItem, shouldListItemRerender)
+//   // return prevProps.selectedItem !== nextProps.selectedItem;
+// }
+ListItem = React.memo(ListItem)
 
 function App() {
   const forceRerender = useForceRerender()
