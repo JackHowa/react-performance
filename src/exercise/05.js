@@ -40,11 +40,9 @@ function AppProvider({children}) {
     grid: initialGrid,
   })
 
-  const dispatchMemo = React.useMemo(() => dispatch, [dispatch])
-  const valueMemo = React.useMemo(() => state, [state])
   return (
-    <AppStateContext.Provider value={valueMemo}>
-      <AppDispatchContext.Provider value={dispatchMemo}>
+    <AppStateContext.Provider value={state}>
+      <AppDispatchContext.Provider value={dispatch}>
         {children}
       </AppDispatchContext.Provider>
     </AppStateContext.Provider>
