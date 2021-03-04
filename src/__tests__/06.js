@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { alfredTip } from '@kentcdodds/react-workshop-app/test-utils'
-import { render, screen } from '@testing-library/react'
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
+import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import App from '../exercise/06'
+import App from '../final/06'
+// import App from '../exercise/06'
 
 beforeEach(() => {
   jest.spyOn(React, 'useState')
@@ -16,7 +17,7 @@ test('colocates state properly', () => {
     () =>
       expect(React.useReducer).not.toHaveBeenCalledWith(
         expect.any(Function),
-        expect.objectContaining({ dogName: expect.anything() }),
+        expect.objectContaining({dogName: expect.anything()}),
       ),
     'React.useReducer should not be called with an initial state object value that includes a dogName property',
   )
@@ -31,7 +32,7 @@ test('colocates state properly', () => {
 
   alfredTip(
     () =>
-      expect(() => appReducer({}, { type: 'TYPED_IN_DOG_INPUT' })).toThrow(
+      expect(() => appReducer({}, {type: 'TYPED_IN_DOG_INPUT'})).toThrow(
         /TYPED_IN_DOG_INPUT/i,
       ),
     `The appReducer shouldn't handle the event type TYPED_IN_DOG_INPUT anymore`,
